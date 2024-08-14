@@ -1,4 +1,5 @@
-<script lng="ts">
+<script lang="ts">
+	import Navbar from './Navbar.svelte';
 	import Sheet from './Sheet.svelte';
 
 	let open = false;
@@ -40,7 +41,9 @@
 						<path d="M9 3v18" />
 					</svg>
 				</button>
-				<div slot="content">Hello there</div>
+				<div slot="content">
+					<Navbar mobile />
+				</div>
 			</Sheet>
 		</div>
 	</div>

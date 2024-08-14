@@ -4,9 +4,11 @@
 	let sheetWidth: number;
 	let sheet: HTMLDivElement;
 	function onWindowClick(e: MouseEvent) {
-		console.log(e);
-		if (sheet && !sheet.contains(e.target as Node)) {
-			console.log(sheet);
+		let el = e.target as HTMLDivElement;
+		if (
+			(sheet && !sheet.contains(e.target as Node)) ||
+			el.id == 'sheet-overlay'
+		) {
 			open = false;
 		}
 	}
@@ -17,16 +19,25 @@
 	<slot name="opener" />
 	{#if open}
 		<div
-			bind:clientWidth={sheetWidth}
-			class="min-w-40 max-w-[80vw] w-full h-screen bg-white p-2 absolute z-40 border-r border-slate-300 left-0 top-0"
-			transition:fly={{ x: -1 * sheetWidth, opacity: 1, duration: 350 }}
+			id="sheet-overlay"
+			class="absolute left-0 top-0 w-screen h-screen bg-[rgba(0,0,0,0.5)] z-40"
 		>
-			<div class="ml-auto">
-				<button on:click={() => (open = false)}>
-					<i class="fa-solid fa-xmark"></i>
-				</button>
+			<div
+				bind:clientWidth={sheetWidth}
+				class="shadow-lg min-w-40 max-w-[80vw] w-full h-screen bg-white p-2 border-r border-slate-300"
+				transition:fly={{
+					x: -1 * sheetWidth,
+					opacity: 1,
+					duration: 350
+				}}
+			>
+				<div class="ml-auto mb-4">
+					<button on:click={() => (open = false)}>
+						<i class="fa-solid fa-xmark text-slate-900 text-xl"></i>
+					</button>
+				</div>
+				<slot name="content" />
 			</div>
-			<slot name="content" />
 		</div>
 	{/if}
 </div>
