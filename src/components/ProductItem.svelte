@@ -12,7 +12,9 @@
 		src={product.thumbnail}
 		alt="product"
 	/>
-	<p class="font-semibold poppins">{product.title}</p>
+	<p class="font-semibold poppins font-thin uppercase mt-2">
+		{product.title}
+	</p>
 	<p class="font-mono">$ {product.price}</p>
 	<p class="text-sm bg-green-600 text-white rounded-md shadow p-1">
 		{product.discountPercentage}% off
