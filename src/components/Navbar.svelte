@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { cart } from '$lib/stores/cart';
+
 	export let mobile = false;
 </script>
 
@@ -12,8 +14,15 @@
 				class="flex justify-start items-center gap-4 px-2 hover:bg-slate-200 hover:shadow rounded"
 			>
 				<i
-					class="fa-solid fa-cart-shopping bg-slate-900 w-10 h-10 text-sm text-white hover:shadow-md hover:bg-slate-700 rounded-full flex justify-center items-center"
-				></i>
+					class="relative fa-solid fa-cart-shopping bg-slate-900 w-10 h-10 text-sm text-white hover:shadow-md hover:bg-slate-700 rounded-full flex justify-center items-center"
+				>
+					{#if $cart.length > 0}
+						<span
+							class="w-5 h-5 flex justify-center items-center rounded-full text-white text-[10px] bg-[#edcf5d] absolute top-0 -right-2"
+							>{$cart.length}</span
+						>
+					{/if}
+				</i>
 				<span
 					class={`${mobile ? 'inline' : 'hidden md:inline'} text-sm sm:text-base font-thin uppercase`}
 					>Cart</span
