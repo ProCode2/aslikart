@@ -1,3 +1,16 @@
+// User types
+export interface User {
+	id: number;
+	username: string;
+	email: string;
+	firstName: string;
+	lastName: string;
+	gender: string;
+	image: string;
+	token: string;
+}
+
+// Product types
 export interface ProductMeta {
 	createdAt: string;
 	updatedAt: string;
@@ -43,3 +56,11 @@ export interface Product {
 	images: string[];
 	dimensions: ProductDimension;
 }
+
+// Cart
+export interface CartItem {
+	quantity: number;
+	productId: number;
+}
+
+export type CartStore = Map<string, CartItem>;

@@ -1,7 +1,57 @@
 <script lang="ts">
 	import type { Product } from '$lib/types';
 	import { addToCart } from '$lib/stores/cart';
+	import { user } from '$lib/stores/user';
+	import { browser } from '$app/environment';
+	let loading = false;
 	export let product: Product;
+	// store cart data in the server
+	async function addItemInCart() {
+		console.log($user);
+		if (!$user) return;
+		const userId = $user.id;
+		if (!userId) return;
+		const cartId = window.localStorage.getItem('__asliCart');
+		try {
+			if (cartId) {
+				fetch('https://dummyjson.com/carts/' + cartId, {
+					method: 'PUT' /* or PATCH */,
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						merge: true, // this will include existing products in the cart
+						products: [
+							{
+								id: product.id,
+								quantity: 1
+							}
+						]
+					})
+				});
+			} else {
+				const res = await fetch('https://dummyjson.com/carts/add', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						userId,
+						products: [
+							{
+								id: product.id,
+								quantity: 1
+							}
+						]
+					})
+				});
+				const cartData = await res.json();
+				window.localStorage.setItem('__asliCart', cartData.id);
+			}
+			addToCart({
+				productId: product.id,
+				quantity: 1
+			});
+		} catch (err) {
+			console.error('Something went wront', err);
+		}
+	}
 </script>
 
 <div
@@ -12,7 +62,7 @@
 		src={product.thumbnail}
 		alt="product"
 	/>
-	<p class="font-semibold poppins font-thin uppercase mt-2">
+	<p class="font-bold poppins font-thin uppercase mt-2">
 		{product.title}
 	</p>
 	<p class="font-mono">$ {product.price}</p>
@@ -32,12 +82,21 @@
 			<button
 				class="text-xs p-2 bg-slate-900 hover:bg-slate-700 text-white rounded-md hover:shadow-md hover:scale-105 transition-all ease-in-out delay-350"
 				on:click={(e) => {
+					loading = true;
 					e.stopPropagation();
 					e.preventDefault();
-					addToCart(product);
+					if (browser) {
+						addToCart({ productId: product.id, quantity: 1 });
+					}
+					loading = false;
 				}}
 			>
-				add to cart
+				<span>add to cart</span>
+				{#if loading}
+					<div
+						class="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent"
+					/>
+				{/if}
 			</button>
 		</div>
 	</div>
