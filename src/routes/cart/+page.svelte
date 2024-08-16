@@ -1,3 +1,32 @@
+<script lang="ts">
+	import CartItem from '../../components/CartItem.svelte';
+	import { cart } from '$lib/stores/cart';
+	import type { Product } from '$lib/types';
+	let loading = false;
+	async function getProductById(productId: number) {
+		const res = await fetch('https://dummyjson.com/products/' + productId);
+		const productData = await res.json();
+		return productData;
+	}
+	let products: Product[] = [];
+	loading = true;
+	Promise.all(
+		Object.keys($cart.cart).map((id) => getProductById(parseInt(id)))
+	).then((ps: Product[]) => {
+		products = ps;
+		loading = false;
+	});
+	let totalSum = 0;
+	$: {
+		totalSum = products.reduce((acc, cur) => {
+			let quantity = $cart.cart[cur.id.toString()]?.quantity ?? 0;
+			acc += quantity * cur.price;
+
+			return acc;
+		}, 0);
+	}
+</script>
+
 <div class="min-h-screen w-full pt-6 px-4">
 	<h2
 		class="mb-4 text-sm md:text-2xl font-semibold tracking-wider uppercase font-thin"
@@ -7,6 +36,23 @@
 	<div
 		class="flex flex-col justify-center items-center w-full px-2 py-4 space-y-4 max-w-3xl mx-auto"
 	>
+		{#if loading}
+			<div class="flex h-72 w-screen items-center justify-center">
+				<div class="flex flex-col items-center gap-4">
+					<div
+						class="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"
+					/>
+					<p class="text-primary">Loading Products</p>
+				</div>
+			</div>
+		{/if}
+
+		{#each products as product (product.id)}
+			<CartItem
+				{product}
+				quantity={$cart.cart[product.id.toString()]?.quantity ?? 0}
+			/>
+		{/each}
 		<div
 			class="h-full w-full p-2 border border-slate-300 rounded-md flex justify-between items-center"
 		>
@@ -58,7 +104,7 @@
 		<hr class="w-full" />
 		<div class="w-full flex justify-between my-2">
 			<p class="font-semibold text-slate-500">Subtotal</p>
-			<p class="font-bold">$2232.2</p>
+			<p class="font-bold">${totalSum}</p>
 		</div>
 		<div class="w-full flex justify-between my-2">
 			<p class="font-semibold text-slate-500">Subtotal</p>
@@ -68,7 +114,7 @@
 		<hr class="w-full" />
 		<div class="w-full flex justify-between my-2">
 			<p class="font-semibold text-slate-500">Total</p>
-			<p class="font-bold">$2232.2</p>
+			<p class="font-bold">${totalSum}</p>
 		</div>
 		<button
 			class="!mt-8 w-full h-12 text-center text-white rounded-md bg-slate-900 hover:bg-slate-700"
