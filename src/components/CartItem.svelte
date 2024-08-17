@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { addToCart } from '$lib/stores/cart';
+	import { addToCart, removeFromCart } from '$lib/stores/cart';
 	import type { Product } from '$lib/types';
 
 	export let quantity: number;
 	export let product: Product;
+	console.log(quantity);
 </script>
 
 {#if product}
@@ -29,10 +30,14 @@
 				<button
 					on:click={() => {
 						if (browser) {
-							addToCart({
-								productId: product.id,
-								quantity: quantity - 1
-							});
+							if (quantity - 1 === 0) {
+								removeFromCart(product.id);
+							} else {
+								addToCart({
+									productId: product.id,
+									quantity: quantity - 1
+								});
+							}
 						}
 					}}
 					class="text-sm py-2 px-3 border border-slate-500 hover:shadow-md rounded-md hover:border-slate-900 hover:text-slate-900"
@@ -49,10 +54,14 @@
 				<button
 					on:click={() => {
 						if (browser) {
-							addToCart({
-								productId: product.id,
-								quantity: quantity + 1
-							});
+							if (quantity + 1 === 0) {
+								removeFromCart(product.id);
+							} else {
+								addToCart({
+									productId: product.id,
+									quantity: quantity + 1
+								});
+							}
 						}
 					}}
 					class="text-sm py-2 px-3 border border-slate-500 hover:shadow-md rounded-md hover:border-slate-900 hover:text-slate-900"
@@ -63,6 +72,11 @@
 				</button>
 			</div>
 			<button
+				on:click={() => {
+					if (browser) {
+						removeFromCart(product.id);
+					}
+				}}
 				class="text-sm py-2 px-3 border border-slate-500 hover:shadow-md rounded-md hover:border-slate-900 hover:text-slate-900"
 			>
 				<i class="fa-solid hover:text-slate-700 fa-trash text-slate-500"

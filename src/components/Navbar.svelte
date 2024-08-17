@@ -15,6 +15,21 @@
 		Main
 	</h3>
 	<ul class="w-full flex flex-col space-y-2">
+		<a href="/">
+			<li
+				class="flex justify-start items-center gap-4 p-2 hover:bg-slate-200 hover:shadow rounded"
+			>
+				<i
+					class="relative fa-solid fa-home bg-slate-900 w-10 h-10 text-sm text-white hover:shadow-md hover:bg-slate-700 rounded-full flex justify-center items-center"
+				>
+				</i>
+				<span
+					class={`${mobile ? 'inline' : 'hidden md:inline'} text-sm sm:text-base font-thin uppercase`}
+					>Home</span
+				>
+			</li>
+		</a>
+
 		<a href="/cart">
 			<li
 				class="flex justify-start items-center gap-4 p-2 hover:bg-slate-200 hover:shadow rounded"
