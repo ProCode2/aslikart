@@ -37,29 +37,16 @@
 				<i
 					class="relative fa-solid fa-cart-shopping bg-slate-900 w-10 h-10 text-sm text-white hover:shadow-md hover:bg-slate-700 rounded-full flex justify-center items-center"
 				>
-					{#if Object.keys($cart.cart).length > 0}
+					{#if Array.from($cart.cart.keys()).length > 0}
 						<span
 							class="w-5 h-5 flex justify-center items-center rounded-full text-white text-[10px] bg-[#edcf5d] absolute top-0 -right-2"
-							>{Object.keys($cart.cart).length}</span
+							>{Array.from($cart.cart.keys()).length}</span
 						>
 					{/if}
 				</i>
 				<span
 					class={`${mobile ? 'inline' : 'hidden md:inline'} text-sm sm:text-base font-thin uppercase`}
 					>Cart</span
-				>
-			</li>
-		</a>
-		<a href="#">
-			<li
-				class="flex justify-start items-center gap-4 p-2 hover:bg-slate-200 hover:shadow rounded"
-			>
-				<i
-					class="fa-solid fa-bag-shopping bg-slate-900 w-10 h-10 text-sm text-white hover:shadow-md hover:bg-slate-700 rounded-full flex justify-center items-center"
-				></i>
-				<span
-					class={`${mobile ? 'inline' : 'hidden md:inline'} text-sm sm:text-base font-thin uppercase`}
-					>orders</span
 				>
 			</li>
 		</a>
@@ -113,7 +100,7 @@
 		Information
 	</h3>
 	<ul class="w-full h-full flex flex-col space-y-2">
-		<a href="#">
+		<a href="https://dummyjson.com" target="_blank">
 			<li
 				class="flex justify-start items-center gap-4 px-2 hover:bg-slate-200 hover:shadow rounded"
 			>

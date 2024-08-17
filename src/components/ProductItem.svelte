@@ -3,6 +3,7 @@
 	import { addToCart } from '$lib/stores/cart';
 	import { user } from '$lib/stores/user';
 	import { browser } from '$app/environment';
+	import { addToast } from '$lib/stores/toast';
 	let loading = false;
 	export let product: Product;
 	// store cart data in the server
@@ -87,6 +88,10 @@
 					e.preventDefault();
 					if (browser) {
 						addToCart({ productId: product.id, quantity: 1 });
+						addToast({
+							message: 'Added to cart',
+							type: 'success'
+						});
 					}
 					loading = false;
 				}}

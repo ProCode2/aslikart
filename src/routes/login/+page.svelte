@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { User } from '$lib/types';
 	import { login } from '$lib/stores/user';
+	import { addToast } from '$lib/stores/toast';
 	let username = '';
 	let password = '';
 	let loading = false;
@@ -18,10 +19,14 @@
 			});
 			const userData: User = await res.json();
 			login(userData);
-			window.localStorage.setItem('__token', userData.token);
 			window.location.href = '/';
 		} catch (err) {
 			console.error(err);
+			addToast({
+				message:
+					'Something went wrong while logging in, Please try again!',
+				type: 'error'
+			});
 		}
 		loading = false;
 	}

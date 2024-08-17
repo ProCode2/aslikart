@@ -5,7 +5,19 @@
 
 	export let quantity: number;
 	export let product: Product;
-	console.log(quantity);
+	// sync input value to cart to store
+	function addInputToCart(e: Event) {
+		const el = e.target as HTMLInputElement;
+		let q = parseInt(el.value);
+		if (q === 0) {
+			removeFromCart(q);
+		} else {
+			addToCart({
+				productId: product.id,
+				quantity: q
+			});
+		}
+	}
 </script>
 
 {#if product}
@@ -49,7 +61,8 @@
 				<input
 					class="text-sm p-2 w-8 border border-slate-500 hover:shadow-md rounded-md hover:border-slate-900 hover:text-slate-900"
 					type="text"
-					bind:value={quantity}
+					value={quantity}
+					on:change={addInputToCart}
 				/>
 				<button
 					on:click={() => {

@@ -1,8 +1,9 @@
 <script lang="ts">
 	import CartItem from '../../components/CartItem.svelte';
-	import { cart } from '$lib/stores/cart';
+	import { cart, clearCart } from '$lib/stores/cart';
 	import type { Product } from '$lib/types';
 	import { onDestroy, onMount } from 'svelte';
+	import { addToast } from '$lib/stores/toast';
 	let loading = false;
 	async function getProductById(productId: number) {
 		const res = await fetch('https://dummyjson.com/products/' + productId);
@@ -36,14 +37,28 @@
 		loading = false;
 	});
 
+	// simulate sending order
+	function handleSubmitOrder() {
+		addToast({
+			message: 'Successfully placed your order'
+		});
+		clearCart();
+		window.location.href = '/';
+	}
+
 	// calculate total cart price
 	$: {
-		totalSum = products.reduce((acc, cur) => {
-			let quantity = $cart.cart.get(cur.id.toString())?.quantity ?? 0;
-			acc += quantity * cur.price;
+		totalSum = parseFloat(
+			products
+				.reduce((acc, cur) => {
+					let quantity =
+						$cart.cart.get(cur.id.toString())?.quantity ?? 0;
+					acc += quantity * cur.price;
 
-			return acc;
-		}, 0);
+					return acc;
+				}, 0)
+				.toFixed(2)
+		);
 	}
 </script>
 
@@ -95,6 +110,7 @@
 			<p class="font-bold">${totalSum}</p>
 		</div>
 		<button
+			on:click={handleSubmitOrder}
 			disabled={Array.from($cart.cart.keys()).length === 0}
 			class="!mt-8 w-full h-12 text-center text-white rounded-md bg-slate-900 hover:bg-slate-700 disabled:bg-slate-700 disabled:cursor-not-allowed"
 			>Order</button

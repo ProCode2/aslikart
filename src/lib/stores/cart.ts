@@ -4,6 +4,7 @@ import { writable, get } from 'svelte/store';
 export const cart = writable<{ cart: CartStore }>(
 	{ cart: new Map() as CartStore },
 	(set) => {
+		if (!window) return;
 		const token = window.localStorage.getItem('__token');
 		if (!token) return;
 		const cart = window.localStorage.getItem(token);
@@ -14,6 +15,7 @@ export const cart = writable<{ cart: CartStore }>(
 );
 
 export function addToCart(item: CartItem) {
+	if (!window) return;
 	const token = window.localStorage.getItem('__token');
 	if (!token) return;
 
@@ -30,6 +32,7 @@ export function addToCart(item: CartItem) {
 }
 
 export function removeFromCart(itemId: number) {
+	if (!window) return;
 	const token = window.localStorage.getItem('__token');
 	if (!token) return;
 	cart.update((items) => {
@@ -45,5 +48,9 @@ export function removeFromCart(itemId: number) {
 }
 
 export function clearCart() {
+	if (!window) return;
+	const token = window.localStorage.getItem('__token');
+	if (!token) return;
 	cart.set({ cart: new Map<string, CartItem>() });
+	window.localStorage.removeItem(token);
 }

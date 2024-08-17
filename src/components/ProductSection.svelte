@@ -130,7 +130,7 @@ so that this becomes resuable and can be used to show - all products, searched p
 				: 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:auto-cols-max gap-4'}
 		>
 			{#each products as product (product.id)}
-				<a class="max-w-max" href={`/product/${product.id}`}>
+				<a class="max-w-max" href={`/products/${product.id}`}>
 					<ProductItem {product} />
 				</a>
 			{/each}

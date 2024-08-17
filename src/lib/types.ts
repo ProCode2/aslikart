@@ -64,3 +64,12 @@ export interface CartItem {
 }
 
 export type CartStore = Map<string, CartItem>;
+
+// Toast
+export interface Toast {
+	id?: number;
+	type?: 'info' | 'success' | 'error';
+	dismissible?: boolean;
+	timeout?: number;
+	message?: string;
+}

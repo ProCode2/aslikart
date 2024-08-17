@@ -1,5 +1,4 @@
 <script>
-	import Footer from '../components/Footer.svelte';
 	import ProductSection from '../components/ProductSection.svelte';
 	let searchText = '';
 </script>
@@ -43,4 +42,3 @@
 		/>
 	</div>
 </section>
-<Footer />
