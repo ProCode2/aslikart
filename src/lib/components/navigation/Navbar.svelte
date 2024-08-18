@@ -2,12 +2,21 @@
 	import { browser } from '$app/environment';
 	import { cart } from '$lib/stores/cart';
 	import { logout } from '$lib/stores/user';
+	import { onDestroy } from 'svelte';
 
 	export let mobile = false;
 	let loggedIn: string | null;
 	if (browser) {
 		loggedIn = window.localStorage.getItem('__token');
 	}
+	let cartLength = 0;
+	const unsubscribe = cart.subscribe(() => {
+		cartLength = Array.from($cart.cart.values()).reduce((acc, cur) => {
+			acc += cur.quantity;
+			return acc;
+		}, 0);
+	});
+	onDestroy(() => unsubscribe());
 </script>
 
 <nav class="grow w-full">
@@ -40,7 +49,7 @@
 					{#if Array.from($cart.cart.keys()).length > 0}
 						<span
 							class="w-5 h-5 flex justify-center items-center rounded-full text-white text-[10px] bg-[#edcf5d] absolute top-0 -right-2"
-							>{Array.from($cart.cart.keys()).length}</span
+							>{cartLength}</span
 						>
 					{/if}
 				</i>

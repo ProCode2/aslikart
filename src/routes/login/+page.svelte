@@ -5,7 +5,8 @@
 	let username = '';
 	let password = '';
 	let loading = false;
-	async function loginUser() {
+	async function loginUser(e: Event) {
+		e.preventDefault();
 		loading = true;
 		try {
 			const res = await fetch('https://dummyjson.com/auth/login', {
@@ -32,6 +33,7 @@
 	}
 </script>
 
+<svelte:head><title>Login | AsliKart</title></svelte:head>
 <div class="flex min-h-full flex-col justify-center px-6 pt-4 pb-6 lg:px-8">
 	<div class="sm:mx-auto sm:w-full sm:max-w-sm">
 		<div class="text-center text-3xl">
@@ -45,7 +47,7 @@
 	</div>
 
 	<div class="mt-4 md:mt-8 sm:mx-auto sm:w-full sm:max-w-sm">
-		<form class="space-y-6" on:submit={() => loginUser()}>
+		<form class="space-y-6" on:submit={(e) => loginUser(e)}>
 			<div>
 				<label
 					for="username"

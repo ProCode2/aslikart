@@ -25,11 +25,13 @@
 		class="h-full w-full p-2 border border-slate-300 rounded-md flex justify-between items-center"
 	>
 		<div class="flex w-2/3 flex-col justify-center items-start">
-			<img
-				class="w-[120px] h-[120px] rounded-md shadow"
-				src={product.thumbnail}
-				alt="product"
-			/>
+			<a href={`/products/${product.id}`}>
+				<img
+					class="w-[120px] h-[120px] rounded-md shadow bg-[#f2f0ea]"
+					src={product.thumbnail}
+					alt="product"
+				/>
+			</a>
 			<h2 class="font-bold poppins font-thin uppercase mt-2">
 				{product.title}
 			</h2>
@@ -38,6 +40,9 @@
 			</p>
 		</div>
 		<div class="flex w-1/3 flex-col items-end h-full mb-auto space-y-4">
+			<p class="tracking-wider font-medium">
+				${product.price * quantity}
+			</p>
 			<div class="flex space-x-2">
 				<button
 					on:click={() => {
@@ -47,7 +52,7 @@
 							} else {
 								addToCart({
 									productId: product.id,
-									quantity: quantity - 1
+									quantity: -1
 								});
 							}
 						}
@@ -72,7 +77,7 @@
 							} else {
 								addToCart({
 									productId: product.id,
-									quantity: quantity + 1
+									quantity: 1
 								});
 							}
 						}

@@ -20,7 +20,12 @@ export function addToCart(item: CartItem) {
 	if (!token) return;
 
 	cart.update((items) => {
-		items.cart.set(item.productId.toString(), item);
+		items.cart.set(item.productId.toString(), {
+			productId: item.productId,
+			quantity:
+				(items.cart.get(item.productId.toString())?.quantity ?? 0) +
+				item.quantity
+		});
 		console.log(items);
 
 		window.localStorage.setItem(

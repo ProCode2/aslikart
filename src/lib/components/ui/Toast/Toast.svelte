@@ -17,7 +17,7 @@
 </script>
 
 <article
-	class={`${alertClassNames} alert flex items-center p-4 rounded-md flex items-center`}
+	class={`${alertClassNames} alert flex items-center p-4 rounded-md flex items-center justify-center`}
 	role="alert"
 	transition:fade
 >
@@ -29,16 +29,16 @@
 		<i class="fa-solid fa-info-circle text-blue-500"></i>
 	{/if}
 
-	<div class="ml-4 flex-grow">
+	<div class="ml-4 flex-grow mr-2">
 		<slot />
 	</div>
 
 	{#if dismissible}
 		<button
-			class="ml-auto text-white bg-transparent border-0 p-0 ml-3"
+			class="ml-auto text-white bg-transparent border-0 p-0"
 			on:click={() => dispatch('dismiss')}
 		>
-			<i class="fa-solid fa-times text-white text-xl"></i>
+			<i class="fa-solid fa-times text-slate-700 text-xl"></i>
 		</button>
 	{/if}
 </article>

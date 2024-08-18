@@ -16,7 +16,8 @@ export const addToast = (toast: Toast) => {
 
 	toasts.update((all) => [{ ...defaults, ...toast }, ...all]);
 
-	if (toast.timeout) setTimeout(() => dismissToast(id), toast.timeout);
+	if (toast.timeout || defaults.timeout)
+		setTimeout(() => dismissToast(id), toast.timeout || defaults.timeout);
 };
 
 export const dismissToast = (id: number) => {

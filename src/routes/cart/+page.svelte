@@ -1,9 +1,10 @@
 <script lang="ts">
-	import CartItem from '../../components/CartItem.svelte';
 	import { cart, clearCart } from '$lib/stores/cart';
 	import type { Product } from '$lib/types';
 	import { onDestroy, onMount } from 'svelte';
 	import { addToast } from '$lib/stores/toast';
+	import CartItem from '$lib/components/cart/CartItem.svelte';
+
 	let loading = false;
 	async function getProductById(productId: number) {
 		const res = await fetch('https://dummyjson.com/products/' + productId);
@@ -62,6 +63,7 @@
 	}
 </script>
 
+<svelte:head><title>Cart | AsliKart</title></svelte:head>
 <div class="min-h-screen w-full pt-6 px-4">
 	<h2
 		class="mb-4 text-sm md:text-2xl font-semibold tracking-wider uppercase font-thin"
@@ -100,14 +102,28 @@
 			<p class="font-bold">${totalSum}</p>
 		</div>
 		<div class="w-full flex justify-between my-2">
+			<p class="font-semibold text-slate-500">Discount</p>
+			<p class="font-bold">- ${(0.1 * totalSum).toFixed(2)}</p>
+		</div>
+		<div class="w-full flex justify-between my-2">
 			<p class="font-semibold text-slate-500">Shipping</p>
-			<p>---</p>
+			{#if totalSum === 0}
+				<p class="font-bold">$0</p>
+			{:else}
+				<p class="font-bold">$2</p>
+			{/if}
 		</div>
 
 		<hr class="w-full" />
 		<div class="w-full flex justify-between my-2">
 			<p class="font-semibold text-slate-500">Total</p>
-			<p class="font-bold">${totalSum}</p>
+			<p class="font-bold">
+				${(
+					totalSum -
+					totalSum * 0.1 +
+					(totalSum === 0 ? 0 : 2)
+				).toFixed(2)}
+			</p>
 		</div>
 		<button
 			on:click={handleSubmitOrder}

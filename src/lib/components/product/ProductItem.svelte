@@ -1,58 +1,11 @@
 <script lang="ts">
 	import type { Product } from '$lib/types';
 	import { addToCart } from '$lib/stores/cart';
-	import { user } from '$lib/stores/user';
 	import { browser } from '$app/environment';
 	import { addToast } from '$lib/stores/toast';
+	import StarIcon from '../ui/StarIcon.svelte';
 	let loading = false;
 	export let product: Product;
-	// store cart data in the server
-	async function addItemInCart() {
-		console.log($user);
-		if (!$user) return;
-		const userId = $user.id;
-		if (!userId) return;
-		const cartId = window.localStorage.getItem('__asliCart');
-		try {
-			if (cartId) {
-				fetch('https://dummyjson.com/carts/' + cartId, {
-					method: 'PUT' /* or PATCH */,
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({
-						merge: true, // this will include existing products in the cart
-						products: [
-							{
-								id: product.id,
-								quantity: 1
-							}
-						]
-					})
-				});
-			} else {
-				const res = await fetch('https://dummyjson.com/carts/add', {
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({
-						userId,
-						products: [
-							{
-								id: product.id,
-								quantity: 1
-							}
-						]
-					})
-				});
-				const cartData = await res.json();
-				window.localStorage.setItem('__asliCart', cartData.id);
-			}
-			addToCart({
-				productId: product.id,
-				quantity: 1
-			});
-		} catch (err) {
-			console.error('Something went wront', err);
-		}
-	}
 </script>
 
 <div
@@ -74,7 +27,10 @@
 		class="w-full bg-[#a4a4a4] p-2 flex justify-center md:justify-between items-center md:absolute bottom-0 left-0 transform md:translate-y-20 mt-2 flex-wrap group-hover:translate-y-0 transition-all delay-350 ease-in-out"
 	>
 		<div>
-			<p class="flex items-center">
+			<p class="hidden md:block">
+				<StarIcon rating={product.rating} />
+			</p>
+			<p class="flex items-center block md:hidden mb-3">
 				<span class="mr-1 text-white">{product.rating}</span>
 				<i class="fa-solid fa-star text-[#edcf5d]"></i>
 			</p>

@@ -1,8 +1,10 @@
 <script>
-	import ProductSection from '../components/ProductSection.svelte';
+	import ProductSection from '$lib/components/product/ProductSection.svelte';
+
 	let searchText = '';
 </script>
 
+<svelte:head><title>Proucts | AsliKart</title></svelte:head>
 <div class="w-full pt-6 px-4 flex justify-center md:justify-end items-center">
 	<div class="w-[350px] space-y-3">
 		<form class="relative">

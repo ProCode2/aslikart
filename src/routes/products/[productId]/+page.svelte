@@ -1,12 +1,12 @@
 <script lang="ts">
-	import StarIcon from '../../../components/StarIcon.svelte';
 	import { page } from '$app/stores';
 	import type { Product } from '$lib/types';
 	import { onMount } from 'svelte';
-	import ImageDisplay from '../../../components/ImageDisplay.svelte';
 	import { browser } from '$app/environment';
 	import { addToCart } from '$lib/stores/cart';
 	import { addToast } from '$lib/stores/toast';
+	import ImageDisplay from '$lib/components/product/ImageDisplay.svelte';
+	import StarIcon from '$lib/components/ui/StarIcon.svelte';
 
 	let loading = false;
 
@@ -27,6 +27,7 @@
 	});
 </script>
 
+<svelte:head><title>{product?.title} | AsliKart</title></svelte:head>
 {#if loading}
 	<div class="flex h-72 w-screen items-center justify-center">
 		<div class="flex flex-col items-center gap-4">

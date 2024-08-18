@@ -1,9 +1,25 @@
 <script>
+	import { browser } from '$app/environment';
+	import { page } from '$app/stores';
+	import { onDestroy } from 'svelte';
 	import '../app.css';
-	import Footer from '../components/Footer.svelte';
-	import MobileSidebar from '../components/MobileSidebar.svelte';
-	import Sidebar from '../components/Sidebar.svelte';
-	import Toasts from '../components/Toast/Toasts.svelte';
+	import Sidebar from '$lib/components/navigation/Sidebar.svelte';
+	import MobileSidebar from '$lib/components/navigation/MobileSidebar.svelte';
+	import Footer from '$lib/components/ui/Footer.svelte';
+	import Toasts from '$lib/components/ui/Toast/Toasts.svelte';
+
+	const unsubscribe = page.subscribe(() => {
+		if (browser) {
+			const loggedIn = window.localStorage.getItem('__token');
+
+			if (!$page.url.href.endsWith('/login') && !loggedIn) {
+				console.log('here');
+				window.location.href = '/login';
+			}
+		}
+	});
+
+	onDestroy(() => unsubscribe());
 </script>
 
 <Toasts />
