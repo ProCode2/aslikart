@@ -66,7 +66,7 @@
 	<ul class="w-full flex flex-col space-y-2">
 		{#if loggedIn}
 			<a
-				href="#"
+				href="/"
 				on:click={(e) => {
 					e.stopPropagation();
 					e.preventDefault();
