@@ -13,7 +13,6 @@
 			const loggedIn = window.localStorage.getItem('__token');
 
 			if (!$page.url.href.endsWith('/login') && !loggedIn) {
-				console.log('here');
 				window.location.href = '/login';
 			}
 		}

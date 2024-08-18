@@ -26,7 +26,6 @@ export function addToCart(item: CartItem) {
 				(items.cart.get(item.productId.toString())?.quantity ?? 0) +
 				item.quantity
 		});
-		console.log(items);
 
 		window.localStorage.setItem(
 			token,

@@ -27,7 +27,6 @@ so that this becomes resuable and can be used to show - all products, searched p
 			}
 			const res = await fetch(url);
 			const productsData = await res.json();
-			console.log(productsData.products);
 			products = productsData.products;
 			total = productsData.total;
 			skip = productsData.skip;
